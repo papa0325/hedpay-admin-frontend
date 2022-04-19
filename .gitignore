@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.nuxt
+dist
+backup
+.idea
+/node_modules/
+/.nuxt/

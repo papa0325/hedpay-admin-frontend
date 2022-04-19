@@ -1,0 +1,35 @@
+---
+  kind: pipeline
+  type: docker
+  name: default
+
+  workspace:
+    base: /drone/src  
+  
+  trigger:
+    branch:
+      - master
+    event:
+      - push
+
+  steps:
+    - name: Build
+      image: node:12
+      commands:
+      - npm install
+      - npm run generate
+      
+    - name: Deploy
+      image: appleboy/drone-scp
+      settings:
+        host:
+          from_secret: HOST          
+        user:
+          from_secret: USER
+        key:
+          from_secret: SSH_SERVER_KEY
+        target:
+          from_secret: TARGET
+        source: /drone/src/dist/*
+        strip_components: 3
+        rm: true  
